@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Role } from 'src/role/role.entity';
 import { User } from 'src/user/user.entity';
 
 @Module({
@@ -9,8 +10,8 @@ import { User } from 'src/user/user.entity';
       port: 5432,
       username: 'postgres',
       password: '12345',
-      database: 'crud-app',
-      entities: [User],
+      database: 'event-app',
+      entities: [User, Role],
       synchronize: true,
     })],
   })

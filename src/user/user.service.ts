@@ -1,14 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Role } from 'src/role/role.entity';
 
 @Injectable()
 export class UserService {
     
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>
+        private userRepository: Repository<User>,
+
+        @InjectRepository(Role)
+        private roleRepository: Repository<Role>
     ) {}
 
 
@@ -42,5 +46,23 @@ export class UserService {
             return true;
         }
         return false;
+    }
+
+    async assignRoleToUser(userId: number, roleIds: number[]): Promise<User> {
+        const user = await this.userRepository.findOne({ where: { id: userId } })
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        console.log("User:", user)
+
+        const roles = await this.roleRepository.findBy({ id: In(roleIds) });
+
+        console.log("Roles:", roles[0].id)
+
+        user.roles = roles
+
+        return await this.userRepository.save(user);
     }
 }
