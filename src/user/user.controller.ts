@@ -1,12 +1,14 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
+import { CryptoService } from 'src/crypto/crypto.service';
 
 @Controller('/api/v1/users')
 export class UserController {
 
     constructor(
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly cryptoService: CryptoService
     ) {}
 
     @Get()
@@ -16,6 +18,8 @@ export class UserController {
 
     @Post()
     createUser(@Body() user: User): Promise<User> {
+        const hashPassword = this.cryptoService.hashPassword(user.password);
+        user.password = hashPassword;
         return this.userService.createUser(user);
     }
 
@@ -36,6 +40,22 @@ export class UserController {
             }, HttpStatus.BAD_REQUEST, {
                 cause: error
             });
+        }
+    }
+
+    @Delete(':id')
+    async deleteUser(@Param('id') userId: number): Promise<Boolean> {
+        try {
+            return await this.userService.deleteUser(userId);
+        } catch (error) {
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: true,
+                message: error.detail
+            },
+            HttpStatus.NOT_FOUND, {
+                cause: error
+            })
         }
     }
 }
