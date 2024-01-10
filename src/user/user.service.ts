@@ -24,6 +24,10 @@ export class UserService {
         return await this.userRepository.findOne({ where: { id } });
     }
 
+    async findUserByUsername (userName: string): Promise<User | undefined> {
+        return await this.userRepository.findOne({ where: { userName }, select: ['password'] });
+    }
+
     async createUser(user: User): Promise<User> {
         return await this.userRepository.save(user);
     }

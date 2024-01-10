@@ -14,6 +14,7 @@ import { CryptoService } from 'src/crypto/crypto.service';
 
   ],
   controllers: [UserController],
-  providers: [UserService, CryptoService]
+  providers: [UserService, CryptoService],
+  exports: [UserService]
 })
 export class UserModule {}
