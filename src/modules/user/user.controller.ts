@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
-import { CryptoService } from 'src/crypto/crypto.service';
+import { CryptoService } from 'src/modules/crypto/crypto.service';
 
 @Controller('/api/v1/users')
 export class UserController {

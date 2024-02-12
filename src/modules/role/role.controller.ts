@@ -16,7 +16,6 @@ export class RoleController {
 
     @Post()
     async createRole(@Body() role: Role): Promise<Role> {
-
         try {
             return await this.roleService.createRole(role);
         } catch (error) {

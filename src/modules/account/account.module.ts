@@ -3,10 +3,10 @@ import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from 'src/modules/user/user.module';
 import { jwtConstants } from './constants';
 import { LocalStrategy } from './local.strategy';
-import { CryptoService } from 'src/crypto/crypto.service';
+import { CryptoService } from 'src/modules/crypto/crypto.service';
 
 @Module({
   imports: [
